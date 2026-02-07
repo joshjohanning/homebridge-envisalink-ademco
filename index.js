@@ -537,10 +537,18 @@ class EnvisalinkPlatform {
                             this.log(`${accessory.name} has been bypass.`);
                             alarm.isProcessingBypassqueue = alarm.isProcessingBypassqueue - 1;
                             accessory.bypassStatus = true;
+                            var bypassSwitch = accessory.accessory.getService(Service.Switch);
+                            if (bypassSwitch) {
+                                bypassSwitch.updateCharacteristic(Characteristic.On, true);
+                            }
                         }
                         if(data.qualifier == 3){
                             this.log(`${accessory.name} has been un-bypass.`);
                             accessory.bypassStatus = false;
+                            var bypassSwitch = accessory.accessory.getService(Service.Switch);
+                            if (bypassSwitch) {
+                                bypassSwitch.updateCharacteristic(Characteristic.On, false);
+                            }
                         }
                        
                         if ((alarm.isProcessingBypassqueue <= 0 ) && (alarm.isProcessingBypass)) { 
